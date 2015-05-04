@@ -7,13 +7,17 @@ var simply = require("./simply"),
     app = new simply.App();
 
 app.use(static(__dirname+"/public"));
-app.use(static(__dirname));
-app.get(function(req, res) {
-    res.write("get!");
+
+app.get("/", function(req, res) {
+    res.write("/");
     res.end();
 })
-app.post(function(req, res) {
-    res.write("post!");
+app.get("/about1", function(req, res) {
+    res.write("hl1");
+    res.end();
+})
+app.get("/about2", function(req, res) {
+    res.write("hl2");
     res.end();
 })
 app.listen(3000)
