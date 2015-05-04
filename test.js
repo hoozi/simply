@@ -1,5 +1,5 @@
 /**
- * @author Administrator
+ * test
  */
 
 var simply = require("./simply"),
