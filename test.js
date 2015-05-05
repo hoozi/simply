@@ -16,5 +16,4 @@ app.get("/about2/:aa/b", function(req, res) {
     res.write("hl2");
     res.end();
 })
-console.log(app._route_getHandles)
 app.listen(3000)
