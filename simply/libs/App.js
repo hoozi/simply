@@ -1,7 +1,9 @@
 /**
  * App
  */
-var http = require("http");
+var http = require("http"),
+    pathRegExp = require("./pathRegExp.js"),
+    url = require("url");
 
 module.exports = App;
 function App() {
@@ -15,12 +17,12 @@ function App() {
     /*     
      * 用于储存get监听器
      * */
-    this._route_getHandle = {}
+    this._route_getHandles = []
     
     /*     
      * 用于储存post监听器
      * */
-    this._route_postHandle = {}
+    this._route_postHandles = []
 
      
     function serverHandle(req, res) { 
@@ -54,16 +56,36 @@ function App() {
                 middle(req, res, next);
             } else {
                 var method = req.method,handle
+                    ,path = url.parse(req.url).pathname;
+                
+                function findHandle(route) {
+                    for(var i=0, len = route.length; i<len; i++) {
+                        var route_item = route[i]
+                        var pass = route_item.route.test(path);
+                        console.log(route_item,pass)
+                        if(pass) {
+                            handle = route_item.handle;
+                            break;
+                        }
+                    }
+                }
+                
                 switch(method) {
                    case "GET":
-                       handle = that._route_getHandle[req.url];
+                       //handle = that._route_getHandle[req.url];
+                       findHandle(that._route_getHandles)
                    break;
                    case "POST":
-                       handle = that._route_postHandle[req.url];
+                       //handle = that._route_postHandle[req.url];
+                       findHandle(that._route_postHandles);
                    break; 
                 }
                 if(handle) {
                     handle(req, res)
+                } else {
+                    res.statusCode = 404;
+                    res.write("404");
+                    res.end();
                 }
             }
         }
@@ -83,10 +105,10 @@ App.prototype.listen = function() {
 
 //get method
 App.prototype.get = function(route, handle) {
-    this._route_getHandle[route] = handle;
+    this._route_getHandles.push({route:pathRegExp(route),handle:handle});
 }
 
 //post method
 App.prototype.post = function(route, handle) {
-    this._route_postHandle[route] = handle;
+    this._route_postHandles.push({route:pathRegExp(route),handle:handle});
 }
