@@ -6,14 +6,14 @@ var simply = require("./simply"),
     static = simply.static,
     app = new simply.App();
 
-//app.use(static(__dirname+"/public"));
+app.use(simply.query);
 
-app.get("/", function(req, res) {
-    res.write("/");
+app.get("/name", function(req, res) {
+    res.write("query:"+req.queryObj.name+";"+req.queryObj.age);
     res.end();
 })
-app.get("/about2/:aa/b", function(req, res) {
-    res.write("hl2");
+app.get("/about2/:name/:age", function(req, res) {
+    res.write("name:"+req.params["name"]+";age:"+req.params["age"]);
     res.end();
 })
 app.listen(3000)

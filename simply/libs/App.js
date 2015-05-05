@@ -62,8 +62,14 @@ function App() {
                     for(var i=0, len = route.length; i<len; i++) {
                         var route_item = route[i]
                         var pass = route_item.route.test(path);
-                        console.log(route_item,pass)
                         if(pass) {
+                            var paramNames = route_item.route.paramNames;
+                                req.params = {};
+                            //console.log(paramNames)
+                            paramNames.forEach(function(name, index) {
+                                //req.params[name] = RegExp["$"+(index+1)];
+                                req.params[name]=RegExp["$"+(index+1)];
+                            })
                             handle = route_item.handle;
                             break;
                         }
