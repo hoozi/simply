@@ -5,20 +5,16 @@
 var simply = require("./simply"),
     static = simply.static,
     app = new simply.App();
-
+var path = require("path");
+var fs = require("fs");
 app.use(static(__dirname+"/public"));
 app.use(simply.post)
 
 app.post("/upload", function(req, res) {
-    /*res.write(req.body.name);
-    res.end();*/
-   
-   var body = "";
-   req.on("data", function(data){
-       body+=data;
-   })
-   req.on("end", function(){
-       console.log(body)
-   })
+    var ext = path.extname(req.files["fileName"]);
+    fs.writeFile("./"+req.files["fileName"], req.files["file"], function (err) {
+          if (err) throw err;
+          res.end("success!")
+    });
 })
 app.listen(3000)
