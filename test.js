@@ -11,8 +11,8 @@ app.use(static(__dirname+"/public"));
 app.use(simply.post)
 
 app.post("/upload", function(req, res) {
-    //var ext = path.extname(req.files["fileName"]);
-    fs.writeFile("./"+req.files["fileName"], req.files["file"], function (err) {
+    var ext = path.extname(req.files["fileName"]);
+    fs.writeFile("./"+new Date().getTime()+ext, req.files["file"], function (err) {
           if (err) throw err;
           res.end("success!")
     });

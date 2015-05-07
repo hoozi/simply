@@ -44,7 +44,7 @@ function App() {
          * */
         function execMiddle() {
             var middle = middleList[middleIndex];
-            
+
             /*
              * 判断是否存在中间件
              * */  
