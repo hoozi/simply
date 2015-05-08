@@ -13,17 +13,19 @@ function urlToPath(str_url) {
 
 module.exports = function(parent_path) {
     return function(req, res, next) {
-        var path = urlToPath(req.url);
-        fs.readFile(parent_path+path, function(err, data) {
-            if(err) {
-                //res.statusCode = 404;
-                //如果错误，直接next;
-                next();
-            } else {
-                res.write(data)
-                res.end();
-            }
-        })
+        if(req.url!=="/favicon.ico") {
+            var path = urlToPath(req.url);
+            fs.readFile(parent_path+path, function(err, data) {
+                if(err) {
+                    //res.statusCode = 404;
+                    //如果错误，直接next;
+                    next();
+                } else {
+                    res.write(data)
+                    res.end();
+                }
+            })
+        }
         //next();
     }
 }

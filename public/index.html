@@ -10,9 +10,8 @@
 	<body>
 		<h1>Hi~</h1>
 		<script>
-			body = [1];
-			var body = [];
-			console.log(body)
+			var divfn = new Function("a","var div = '';for(var i=0;i<a.length;i++){div+=a[i]};return div");
+			console.log(divfn([1,11]))
 		</script>
 	</body>
 </html>

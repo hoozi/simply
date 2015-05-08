@@ -7,14 +7,22 @@ var simply = require("./simply"),
     app = new simply.App();
 var path = require("path");
 var fs = require("fs");
+
 app.use(static(__dirname+"/public"));
 app.use(simply.post)
+app.use(simply.redirect)
+app.use(simply.download)
+app.use(simply.view(__dirname+"/views"));
 
 app.post("/upload", function(req, res) {
-    var ext = path.extname(req.files["fileName"]);
-    fs.writeFile("./"+new Date().getTime()+ext, req.files["file"], function (err) {
+	res.view("test.html")
+	//var buffer = new Buffer("hehehe");
+	//res.download("o.exe",buffer);
+	//res.redirect("http://www.baidu.com")
+    /*var ext = path.extname(req.fields["fileName"]);
+    fs.writeFile("./"+new Date().getTime()+ext, req.fields["file"], function (err) {
           if (err) throw err;
           res.end("success!")
-    });
+    });*/
 })
 app.listen(3000)
